@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for the Judgement card game */
+.card-suite-red {
+  @apply text-red-500;
+}
+
+.card-suite-black {
+  @apply text-gray-800;
+}
+
+.game-card {
+  @apply bg-white rounded-lg shadow-md border-2 transition-all duration-200 hover:shadow-lg;
+}
+
+.game-card.selected {
+  @apply border-blue-500 ring-2 ring-blue-200;
+}
+
+.player-card {
+  @apply bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 shadow-sm border;
+}
+
+.dealer-badge {
+  @apply bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium;
+}
+
+.trump-indicator {
+  @apply bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-bold;
+}
+
+.bid-input {
+  @apply w-16 text-center border-2 border-gray-200 rounded-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200;
+}
+
+.game-button {
+  @apply bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg;
+}
+
+.game-button:disabled {
+  @apply from-gray-300 to-gray-400 cursor-not-allowed;
+}
