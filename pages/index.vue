@@ -2,32 +2,32 @@
   <div class="min-h-screen bg-gray-100 dark:bg-gray-900 font-sans transition-colors">
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
       <!-- Header -->
-      <header class="text-center mb-8 relative">
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 dark:text-white tracking-tight">
+      <header class="text-center mb-6 sm:mb-8 relative">
+        <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-800 dark:text-white tracking-tight">
           🎮 Judgement Card Game
         </h1>
-        <p class="text-lg text-gray-500 dark:text-gray-400 mt-2">
+        <p class="text-sm sm:text-lg text-gray-500 dark:text-gray-400 mt-2">
           Predict your tricks, master the trump, and claim victory!
         </p>
         <!-- Control Buttons -->
-        <div v-if="game" class="absolute top-0 right-0 mt-2 space-x-2">
+        <div v-if="game" class="absolute top-0 right-0 mt-1 sm:mt-2 space-x-1 sm:space-x-2">
           <button 
             @click="toggleDarkMode" 
-            class="bg-purple-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-600 transition-colors shadow-md"
+            class="bg-purple-500 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 rounded-lg hover:bg-purple-600 transition-colors shadow-md text-sm sm:text-base"
           >
             {{ isDarkMode ? '☀️' : '🌙' }}
           </button>
           <button 
             @click="handleNewGame" 
-            class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors shadow-md"
+            class="bg-blue-500 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 rounded-lg hover:bg-blue-600 transition-colors shadow-md text-sm sm:text-base"
           >
             New Game
           </button>
         </div>
-        <div v-else class="absolute top-0 right-0 mt-2">
+        <div v-else class="absolute top-0 right-0 mt-1 sm:mt-2">
           <button 
             @click="toggleDarkMode" 
-            class="bg-purple-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-600 transition-colors shadow-md"
+            class="bg-purple-500 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 rounded-lg hover:bg-purple-600 transition-colors shadow-md text-sm sm:text-base"
           >
             {{ isDarkMode ? '☀️' : '🌙' }}
           </button>

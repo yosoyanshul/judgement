@@ -1,39 +1,41 @@
 <template>
-  <div class="game-board min-h-screen bg-gradient-to-br from-green-100 to-blue-100 dark:from-gray-800 dark:to-gray-900 p-6">
+  <div class="game-board min-h-screen bg-gradient-to-br from-green-100 to-blue-100 dark:from-gray-800 dark:to-gray-900 p-3 sm:p-6">
     <!-- Round Header -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
-      <div class="flex justify-between items-center">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
         <div>
-          <h2 class="text-3xl font-bold text-gray-800 dark:text-white">
+          <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white">
             Round {{ currentRound.roundNumber }} of {{ game.totalRounds }}
           </h2>
-          <p class="text-gray-600 dark:text-gray-300 text-lg">
+          <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-lg">
             {{ currentRound.cardsPerPlayer }} cards per player
           </p>
         </div>
-        <div class="text-right">
-          <div class="text-lg font-semibold text-gray-700 dark:text-gray-300">Trump Suit</div>
-          <div class="text-4xl font-bold flex items-center justify-end" :class="trumpColor">
-            <span class="mr-2 capitalize">{{ currentRound.trumpSuit }}</span>
-            <span>{{ trumpSymbol }}</span>
+        <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+          <div class="text-center sm:text-right">
+            <div class="text-sm sm:text-lg font-semibold text-gray-700 dark:text-gray-300">Trump Suit</div>
+            <div class="text-2xl sm:text-4xl font-bold flex items-center justify-center sm:justify-end" :class="trumpColor">
+              <span class="mr-2 capitalize">{{ currentRound.trumpSuit }}</span>
+              <span>{{ trumpSymbol }}</span>
+            </div>
           </div>
+          <button
+            @click="showScores = !showScores"
+            class="bg-blue-500 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm sm:text-base whitespace-nowrap"
+          >
+            {{ showScores ? 'Hide' : 'Show' }} Scores
+          </button>
         </div>
-        <button
-          @click="showScores = !showScores"
-          class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-        >
-          {{ showScores ? 'Hide' : 'Show' }} Scores
-        </button>
       </div>
     </div>
 
     <!-- Scores Panel -->
-    <div v-if="showScores" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
-      <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Current Scores</h3>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div v-if="showScores" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+      <h3 class="text-lg sm:text-xl font-bold mb-4 text-gray-800 dark:text-white">Current Scores</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div v-for="player in game.players" :key="player.id" class="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-          <div class="font-semibold text-gray-800 dark:text-white">{{ player.name }}</div>
-          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ player.score }}</div>
+          <div class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base truncate">{{ player.name }}</div>
+          <div class="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">{{ player.score }}</div>
         </div>
       </div>
     </div>
@@ -41,11 +43,11 @@
     <!-- Bidding Phase -->
     <div v-if="currentRound.phase === 'bidding'">
       <!-- Players Grid with Bid Status -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         <div
           v-for="player in game.players"
           :key="player.id"
-          class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center transition-all duration-300"
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 text-center transition-all duration-300"
           :class="{
             'ring-4 ring-yellow-400 bg-yellow-50 dark:bg-yellow-900': player.id === currentPlayerForBid?.id,
             'bg-green-50 dark:bg-green-900 ring-2 ring-green-300': currentRound.bids[player.id] !== undefined,
@@ -53,54 +55,54 @@
           }"
         >
           <div class="flex items-center justify-center mb-3">
-            <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-sm sm:text-lg">
               {{ player.name.charAt(0).toUpperCase() }}
             </div>
           </div>
           
-          <h3 class="font-bold text-lg mb-2 text-gray-800 dark:text-white">{{ player.name }}</h3>
+          <h3 class="font-bold text-base sm:text-lg mb-2 text-gray-800 dark:text-white truncate">{{ player.name }}</h3>
           
           <div v-if="player.isDealer" class="text-xs bg-yellow-200 dark:bg-yellow-700 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded-full mb-2">
             Dealer
           </div>
           
           <div v-if="currentRound.bids[player.id] !== undefined" class="text-center">
-            <div class="text-3xl font-bold text-green-600 dark:text-green-400 mb-1">
+            <div class="text-2xl sm:text-3xl font-bold text-green-600 dark:text-green-400 mb-1">
               {{ currentRound.bids[player.id] }}
             </div>
-            <div class="text-sm text-gray-600 dark:text-gray-300">Bid Placed</div>
+            <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Bid Placed</div>
           </div>
           
           <div v-else-if="player.id === currentPlayerForBid?.id" class="text-center">
-            <div class="text-lg font-bold text-yellow-600 dark:text-yellow-400 mb-2">Your Turn!</div>
+            <div class="text-sm sm:text-lg font-bold text-yellow-600 dark:text-yellow-400 mb-2">Your Turn!</div>
             <div v-if="currentPlayerForBid?.isLastBidder" class="text-xs text-yellow-600 dark:text-yellow-400 mb-2">
               (Last Bidder)
             </div>
             <button
               @click="showBidModal = true"
-              class="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition-colors font-bold text-lg"
+              class="bg-yellow-500 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:bg-yellow-600 transition-colors font-bold text-sm sm:text-lg"
             >
               Place Bid
             </button>
           </div>
           
           <div v-else class="text-center">
-            <div class="text-gray-400 dark:text-gray-500 text-lg">Waiting...</div>
+            <div class="text-gray-400 dark:text-gray-500 text-sm sm:text-lg">Waiting...</div>
           </div>
         </div>
       </div>
 
       <!-- Bidding Progress -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-        <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Bidding Progress</h3>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+        <h3 class="text-lg sm:text-xl font-bold mb-4 text-gray-800 dark:text-white">Bidding Progress</h3>
         <div class="flex items-center">
-          <div class="flex-1 bg-gray-200 dark:bg-gray-600 rounded-full h-4">
+          <div class="flex-1 bg-gray-200 dark:bg-gray-600 rounded-full h-3 sm:h-4">
             <div 
-              class="bg-blue-500 h-4 rounded-full transition-all duration-500"
+              class="bg-blue-500 h-3 sm:h-4 rounded-full transition-all duration-500"
               :style="{ width: `${(Object.keys(currentRound.bids).length / game.players.length) * 100}%` }"
             ></div>
           </div>
-          <span class="ml-4 font-bold text-gray-800 dark:text-white">
+          <span class="ml-3 sm:ml-4 font-bold text-gray-800 dark:text-white text-sm sm:text-base">
             {{ Object.keys(currentRound.bids).length }} / {{ game.players.length }}
           </span>
         </div>
@@ -108,51 +110,51 @@
     </div>
 
     <!-- Playing Phase -->
-    <div v-else-if="currentRound.phase === 'playing'" class="space-y-6">
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
-        <h3 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white text-center">
+    <div v-else-if="currentRound.phase === 'playing'" class="space-y-4 sm:space-y-6">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-8">
+        <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 dark:text-white text-center">
           Play Round {{ currentRound.roundNumber }} with Real Cards
         </h3>
         
-        <div class="text-center mb-8">
-          <div class="bg-blue-50 dark:bg-blue-900 rounded-lg p-6">
-            <h4 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">
+        <div class="text-center mb-6 sm:mb-8">
+          <div class="bg-blue-50 dark:bg-blue-900 rounded-lg p-4 sm:p-6">
+            <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800 dark:text-white">
               Round Information
             </h4>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-center">
               <div>
-                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ currentRound.cardsPerPlayer }}</div>
-                <div class="text-sm text-gray-600 dark:text-gray-300">Cards per Player</div>
+                <div class="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">{{ currentRound.cardsPerPlayer }}</div>
+                <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Cards per Player</div>
               </div>
               <div>
-                <div class="text-2xl font-bold" :class="trumpColor">
+                <div class="text-xl sm:text-2xl font-bold" :class="trumpColor">
                   {{ currentRound.trumpSuit ? trumpSymbol : 'No Trump' }}
                 </div>
-                <div class="text-sm text-gray-600 dark:text-gray-300">Trump Suit</div>
+                <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Trump Suit</div>
               </div>
               <div>
-                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">{{ dealerName }}</div>
-                <div class="text-sm text-gray-600 dark:text-gray-300">Dealer</div>
+                <div class="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">{{ dealerName }}</div>
+                <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Dealer</div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Current Bids Display -->
-        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-8">
-          <h4 class="text-lg font-semibold mb-4 text-center text-gray-800 dark:text-white">Current Bids</h4>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
+          <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-center text-gray-800 dark:text-white">Current Bids</h4>
+          <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div v-for="player in game.players" :key="player.id" class="text-center p-3 bg-white dark:bg-gray-600 rounded-lg">
-              <div class="font-semibold text-gray-800 dark:text-white">{{ player.name }}</div>
-              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ currentRound.bids[player.id] }}</div>
+              <div class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base truncate">{{ player.name }}</div>
+              <div class="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">{{ currentRound.bids[player.id] }}</div>
               <div class="text-xs text-gray-600 dark:text-gray-300">bid</div>
             </div>
           </div>
         </div>
 
         <!-- Instructions -->
-        <div class="text-center text-gray-600 dark:text-gray-300 mb-8">
-          <p class="text-lg mb-2">🃏 Play all {{ currentRound.cardsPerPlayer }} tricks with your real cards</p>
+        <div class="text-center text-gray-600 dark:text-gray-300 mb-6 sm:mb-8">
+          <p class="text-base sm:text-lg mb-2">🃏 Play all {{ currentRound.cardsPerPlayer }} tricks with your real cards</p>
           <p class="text-sm">Keep track of who wins each trick, then record the results below when finished</p>
         </div>
 
@@ -160,7 +162,7 @@
         <div class="text-center">
           <button
             @click="showResultsModal = true"
-            class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors"
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-lg text-lg sm:text-xl transition-colors"
           >
             Record Round Results
           </button>
@@ -169,33 +171,33 @@
     </div>
 
     <!-- Results Recording Modal -->
-    <div v-if="showResultsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click="showResultsModal = false">
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto" @click.stop>
-        <h3 class="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
+    <div v-if="showResultsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" @click="showResultsModal = false">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-4 sm:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto" @click.stop>
+        <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center text-gray-800 dark:text-white">
           Record Results - Round {{ currentRound.roundNumber }}
         </h3>
         
-        <p class="text-center text-gray-600 dark:text-gray-300 mb-6">
+        <p class="text-center text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">
           Did each player make their bid exactly?
         </p>
         
-        <div class="space-y-4 mb-8">
-          <div v-for="player in game.players" :key="player.id" class="flex items-center justify-between p-4 border rounded-lg dark:border-gray-600">
-            <div class="flex items-center">
-              <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg mr-4">
+        <div class="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+          <div v-for="player in game.players" :key="player.id" class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 border rounded-lg dark:border-gray-600 space-y-3 sm:space-y-0">
+            <div class="flex items-center w-full sm:w-auto">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-sm sm:text-lg mr-3 sm:mr-4 flex-shrink-0">
                 {{ player.name.charAt(0).toUpperCase() }}
               </div>
-              <div>
-                <div class="font-semibold text-gray-800 dark:text-white">{{ player.name }}</div>
-                <div class="text-sm text-gray-600 dark:text-gray-300">Bid: {{ currentRound.bids[player.id] }} tricks</div>
+              <div class="min-w-0">
+                <div class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base truncate">{{ player.name }}</div>
+                <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Bid: {{ currentRound.bids[player.id] }} tricks</div>
               </div>
             </div>
             
-            <div class="flex space-x-2">
+            <div class="flex space-x-2 w-full sm:w-auto">
               <button
                 @click="setPlayerResult(player.id, true)"
                 :class="[
-                  'px-6 py-3 rounded-lg font-semibold transition-colors',
+                  'flex-1 sm:flex-none px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-semibold transition-colors text-sm sm:text-base',
                   playerResults[player.id] === true 
                     ? 'bg-green-500 text-white' 
                     : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-800'
@@ -206,7 +208,7 @@
               <button
                 @click="setPlayerResult(player.id, false)"
                 :class="[
-                  'px-6 py-3 rounded-lg font-semibold transition-colors',
+                  'flex-1 sm:flex-none px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-semibold transition-colors text-sm sm:text-base',
                   playerResults[player.id] === false 
                     ? 'bg-red-500 text-white' 
                     : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-red-100 dark:hover:bg-red-800'
@@ -220,23 +222,23 @@
 
         <!-- Validation Message -->
         <div v-if="!allPlayersSelected" class="bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-600 rounded-lg p-3 mb-4">
-          <p class="text-yellow-800 dark:text-yellow-200 text-center">
+          <p class="text-yellow-800 dark:text-yellow-200 text-center text-sm sm:text-base">
             ⚠️ Please select Won or Lost for all players
           </p>
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex gap-3">
+        <div class="flex gap-2 sm:gap-3">
           <button
             @click="showResultsModal = false"
-            class="flex-1 py-3 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-semibold"
+            class="flex-1 py-2 sm:py-3 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-semibold text-sm sm:text-base"
           >
             Cancel
           </button>
           <button
             @click="submitResults"
             :disabled="!allPlayersSelected"
-            class="flex-1 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors font-semibold"
+            class="flex-1 py-2 sm:py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors font-semibold text-sm sm:text-base"
           >
             Confirm Results
           </button>
@@ -245,18 +247,18 @@
     </div>
 
     <!-- Bidding Modal -->
-    <div v-if="showBidModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click="showBidModal = false">
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4" @click.stop>
+    <div v-if="showBidModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" @click="showBidModal = false">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-4 sm:p-8 max-w-md w-full" @click.stop>
         <div class="text-center">
-          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-2xl font-bold">{{ currentPlayerForBid?.name.charAt(0).toUpperCase() }}</span>
+          <div class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-lg sm:text-2xl font-bold">{{ currentPlayerForBid?.name.charAt(0).toUpperCase() }}</span>
           </div>
           
-          <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">{{ currentPlayerForBid?.name }}'s Turn</h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-6">How many tricks do you think you'll win?</p>
+          <h3 class="text-xl sm:text-2xl font-bold mb-2 text-gray-800 dark:text-white">{{ currentPlayerForBid?.name }}'s Turn</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">How many tricks do you think you'll win?</p>
           
           <div v-if="currentPlayerForBid?.isLastBidder && currentBidTotal < currentRound.cardsPerPlayer" class="bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-600 rounded-lg p-3 mb-4">
-            <p class="text-sm text-yellow-800 dark:text-yellow-200">
+            <p class="text-xs sm:text-sm text-yellow-800 dark:text-yellow-200">
               <strong>Last Bidder Restriction:</strong> Total bids cannot equal {{ currentRound.cardsPerPlayer }}
               <br>Current total: {{ currentBidTotal }} + your bid ≠ {{ currentRound.cardsPerPlayer }}
               <br>You cannot bid: <strong>{{ forbiddenBid }}</strong>
@@ -264,20 +266,20 @@
           </div>
           
           <div v-else-if="currentPlayerForBid?.isLastBidder && currentBidTotal > currentRound.cardsPerPlayer" class="bg-green-100 dark:bg-green-900 border border-green-300 dark:border-green-600 rounded-lg p-3 mb-4">
-            <p class="text-sm text-green-800 dark:text-green-200">
+            <p class="text-xs sm:text-sm text-green-800 dark:text-green-200">
               <strong>No Restriction:</strong> Previous bids already exceed {{ currentRound.cardsPerPlayer }}
               <br>Current total: {{ currentBidTotal }} - You can bid any amount!
             </p>
           </div>
           
           <!-- Bid Buttons -->
-          <div class="grid grid-cols-4 gap-2 mb-6">
+          <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-4 sm:mb-6">
             <button
               v-for="bid in possibleBids"
               :key="bid"
               @click="selectBid(bid)"
               :disabled="!isBidAllowed(bid)"
-              class="h-16 text-xl font-bold rounded-lg transition-all duration-200"
+              class="h-12 sm:h-16 text-lg sm:text-xl font-bold rounded-lg transition-all duration-200"
               :class="[
                 selectedBid === bid ? 'bg-blue-500 text-white ring-4 ring-blue-300' : 'bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 text-gray-800 dark:text-white',
                 !isBidAllowed(bid) ? 'opacity-50 cursor-not-allowed bg-red-100 dark:bg-red-900' : ''
@@ -288,24 +290,24 @@
             </button>
           </div>
           
-          <!-- Debug info -->
-          <div class="text-xs text-gray-500 dark:text-gray-400 mb-4">
+          <!-- Debug info (smaller on mobile) -->
+          <div class="text-xs text-gray-500 dark:text-gray-400 mb-4 hidden sm:block">
             Debug: Current total: {{ currentBidTotal }}, Cards: {{ currentRound.cardsPerPlayer }}, 
             Forbidden: {{ forbiddenBid }}, Is last: {{ currentPlayerForBid?.isLastBidder }}
           </div>
           
           <!-- Action Buttons -->
-          <div class="flex gap-3">
+          <div class="flex gap-2 sm:gap-3">
             <button
               @click="showBidModal = false"
-              class="flex-1 py-3 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-semibold"
+              class="flex-1 py-2 sm:py-3 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-semibold text-sm sm:text-base"
             >
               Cancel
             </button>
             <button
               @click="submitBid"
               :disabled="selectedBid === null || !isBidAllowed(selectedBid)"
-              class="flex-1 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors font-semibold"
+              class="flex-1 py-2 sm:py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors font-semibold text-sm sm:text-base"
             >
               Confirm Bid
             </button>
