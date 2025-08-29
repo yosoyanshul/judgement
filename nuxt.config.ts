@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     }
   },
   app: {
-    baseURL: '/judgement/', // GitHub Pages repository path
+    baseURL: '/', // Custom domain uses root path
     head: {
       title: 'Judgement Card Game',
       meta: [
