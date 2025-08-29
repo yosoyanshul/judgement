@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     }
   },
   app: {
-    baseURL: '/', // Temporarily set to root for local testing
+    baseURL: '/judgement/', // GitHub Pages repository path
     head: {
       title: 'Judgement Card Game',
       meta: [
